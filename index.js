@@ -12,19 +12,21 @@ const api = 'https://api.nasa.gov/neo/rest/v1/feed?start_date=2022-10-10&end_dat
 app.get('/meteors', async (req, res)=>{
   const nasa = await fetch(api)
   const data = await nasa.json();
-  const map = new Map();
-  let i;
-  let date =['2022-10-14'];
-  for (i = 0; i < data['near_earth_objects'][date].length; i++) {
-    map.set('id:'+i, data['near_earth_objects'][date][i].id);
-    map.set('name:'+i, data['near_earth_objects'][date][i].name);
-    map.set('diameter:'+i, data['near_earth_objects'][date][i]['estimated_diameter']['meters']);
-    map.set('is_potentially_hazardous_asteroid:'+i, data['near_earth_objects']['2022-10-14'][i].is_potentially_hazardous_asteroid)
-    map.set('close_approach_data:'+i, data['near_earth_objects'][date][i]['close_approach_data']);
-    map.set('relative_velocity:'+i, data['near_earth_objects'][date][i]['close_approach_data'][0]['relative_velocity']['kilometers_per_hour']);
-  } 
-  console.log(map)
-  res.send([...map.entries()])
+  let result={}
+  let arr =[]
+  for(let item in data['near_earth_objects']){
+   for (let i = 0; i < data['near_earth_objects'][item].length; i++) {
+    result.id = data['near_earth_objects'][item][i].id
+    result.name=data['near_earth_objects'][item][i].name
+    result.diameter = data['near_earth_objects'][item][i]['estimated_diameter']['meters']//['estimated_diameter_min']
+    result.hazard =data['near_earth_objects']['2022-10-14'][i]?.is_potentially_hazardous_asteroid
+    result.approach =data['near_earth_objects'][item][i]['close_approach_data']
+    result.relative = data['near_earth_objects'][item][i]['close_approach_data'][0]['relative_velocity']['kilometers_per_hour']
+   
+    arr.push(result)
+    result={};
+    }  }
+  console.log(arr)
   // res.send(data);
 })
 
