@@ -14,7 +14,7 @@ app.get('/meteors', async (req, res)=>{
   const data = await nasa.json();
   let result=[]
   let arr =[]
-  let prop = ["id","name",'meters',"is_potentially_hazardous_asteroid",'kilometers_per_hour']
+  let prop = ["id","name",'meters',"is_potentially_hazardous_asteroid",'kilometers_per_hour','kilometers_per_hour','close_approach_date_full']
 
   function itog(ca) {
     Object.entries(ca).forEach(([key,value]) => {
