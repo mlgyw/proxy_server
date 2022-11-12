@@ -1,30 +1,37 @@
 import * as dotenv from 'dotenv';
-import fetch from 'node-fetch';
+//import fetch from 'node-fetch';
 import Express  from 'express';
-import Meteors from './useCase/met'
+//import {Meteors} from '../proxy_server/useCase/index.js'
+//import {MeteorsReposytory} from './repository/index.js'
+//import MeteorsReposytory from './repository/index.js';
+import { router } from './delivery/http/meteors.js';
 
 
 dotenv.config();
 
 const app = Express();
 const port = process.env.PORT;
-const key = process.env.KEY;
-const url = process.env.URL;
-const api = url + key;
+// const key = process.env.KEY;
+// const url = process.env.URL;
+//const api = url + key;
 
+app.use(router)
+ 
+// app.get('/meteors', async (req, res)=>{
+//   // const nasa = await fetch(api)
+//   // const data = await nasa.json();
+//   // let result=[]
+  
 
-
-app.get('/meteors', async (req, res)=>{
-  const nasa = await fetch(api)
-  const data = await nasa.json();
-  let props = ["id","name",'meters',"is_potentially_hazardous_asteroid",'kilometers_per_hour','close_approach_date_full']
-  let result=[]
-
-  //getMeteors(data)
-  //getMeteorsData(data.near_earth_objects)
-  res.send(result);
-  console.log(result)
-  })
+//   let info = new Meteors()
+//   await info.getMeteors()
+  
+//   // console.log(info.result)
+//   //getMeteors(data)
+//   //getMeteorsData(data.near_earth_objects)
+//   //  res.send(info);
+//   // console.log(result)
+//   })
 
  
 
