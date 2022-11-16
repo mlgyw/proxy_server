@@ -1,28 +1,29 @@
-// import * as dotenv from 'dotenv';
-// import Express  from 'express';
-// const app = Express();
-// const port = process.env.PORT;
-// import {Meteors} from '../proxy_server/useCase/index.js'
-// //import {MeteorsReposytory} from './repository/index.js'
-// import {Meteors} from '../proxy_server/useCase/index.js'
-//import {MeteorsReposytory} from './repository/index.js'
 import Express  from 'express';
-import { Meteors } from './../../useCase/meteors.js';
+import { Meteors } from '../../useCase/meteors.js';
+import { MeteorsA } from './../../useCase/meteors/meteorsA.js';
 export const router = Express.Router();
 
 router.get('/meteors', async (req, res)=>{
-    // const nasa = await fetch(api)
-    // const data = await nasa.json();
-    // let result=[]
-    
-  
     let info = new Meteors()
-    await info.getMeteors()
+    //await info.getMeteorsData(req.query)
+    //console.log(req.query.params)
+     info.getMeteors(req.query.params)
+     
+    //const date = req.query.meteors.date
+
     
-    // console.log(info.result)
-    //getMeteors(data)
-    //getMeteorsData(data.near_earth_objects)
-    //  res.send(info);
-    // console.log(result)
+    //const count = req.query.meteors.count
+    //const wereDangerousMeteors = req.query.meteors.wereDangerousMeteors
+    //res.send("date: "+date+" count: "+count+" wereDangerousMeteors: "+wereDangerousMeteors)
+    //}
+    //res.send("date: "+date)
+    //id.push(req.query.id)
+    //res.send(id)
+    //info.getProps(id)
+    //res.send("date: "+date+" count: "+count+" wereDangerousMeteors: "+wereDangerousMeteors)
+    
+    //res.send(typeof wereDangerousMeteors)
+    
+    //await res.send(Buffer.from(info.getMeteors()))
     })
-    //module.exports = router;
+ 

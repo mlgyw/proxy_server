@@ -1,5 +1,4 @@
 import * as dotenv from 'dotenv';
-//import {Meteors} from '../../useCase/index.js'
 import fetch from 'node-fetch';
 
 dotenv.config();
@@ -11,8 +10,6 @@ export class MeteorsR{
     async getMeteorsRequest (){
         const nasa = await fetch(this.api)
         const data = await nasa.json();
-        // let giveData = new Meteors()
-        // giveData.getMeteors(data)
         return data;
     }
     
