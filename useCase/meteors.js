@@ -1,27 +1,15 @@
-import {MeteorsA} from './meteors/index.js'
-import { MeteorsReposytory } from '../repository/index.js'
+import MeteorsReposytory from '../repository/meteorsRepository.js'
+import MeteorsRecurse from './meteors/meteorsRecurse.js';
 
-export class Meteors{
-//     props=[]
-//  getProps(props){
-//    this.props=props
-//   }
-
+class Meteors{
+    constructor() {}
     async getMeteors(params){
-
-        //const result = []
-        // getMeteorsData(data)
-        // let request = new MeteorsReposytory()
-        // const data = await request.getMeteors()
-        const met = new MeteorsReposytory()
+        const met = MeteorsReposytory
         const data = await met.getMeteors()
-        let info = new MeteorsA()
+        let info = MeteorsRecurse
         //const props= Object.entries(params)
         info.getMeteorsData(data,params)
         console.log(info.result)
-        
-        //return result
-        
     }
-    
 }
+export default new Meteors()

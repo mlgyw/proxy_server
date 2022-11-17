@@ -1,2 +1,8 @@
-export * from './meteors/index.js'
-export * from './meteorsRepository.js'
+import NasaApi from './meteors/index.js'
+
+class Repository{
+    constructor(){}
+     nasaApi = NasaApi
+}
+export default Repository
+

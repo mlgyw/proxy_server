@@ -1,9 +1,10 @@
-import {MeteorsR} from './meteors/index.js'
+import NasaApi from './meteors/index.js'
 
-export class MeteorsReposytory{
+class MeteorsReposytory{
+    constructor() {}
     async getMeteors (){
-        let request = new MeteorsR()
-        //request.MeteorsReposytory
+        let request = NasaApi
         return await request.getMeteorsRequest()  
     }   
 }
+export default new MeteorsReposytory()
