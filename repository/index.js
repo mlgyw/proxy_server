@@ -1,8 +1,10 @@
 import NasaApi from './meteors/index.js'
 
 class Repository{
-    constructor(){}
-     nasaApi = NasaApi
+    NasaApi
+    constructor(){
+       this.NasaApi = NasaApi
+    }
 }
-export default Repository
+export default new Repository()
 
