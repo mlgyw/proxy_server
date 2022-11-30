@@ -10,8 +10,8 @@ class NasaApi{
     constructor(){
         
     }
-    async getMeteorsRequest (){
-        const nasa = await fetch(this.api)
+    async getMeteorsRequest (date){
+        const nasa = await fetch(date||this.api)//||this.api)
         const data = await nasa.json();
         return data;
     }  

@@ -4,12 +4,22 @@ class Meteors{
     constructor() {}
      result = []
      data=[]
-     async getData(){
-      let data = await repository.NasaApi.getMeteorsRequest()
-      this.data = data
-      // return data
+     date = ""
+      setDate(date){
+      this.date =  date
+      //console.log("1"+this.date)
+      return this.date
      }
-     data = this.getData()
+      
+    
+     async getData(){
+      let data = await repository.NasaApi.getMeteorsRequest(this.date)
+      //console.log("2"+this.date)
+      this.data = data
+      return this.data
+      //console.log(this.date)
+     }
+    //  data =  this.getData() //тут проблемма
      
     async getMeteorsData(params,data_,id,name) {  
         // const met = MeteorsReposytory
@@ -22,7 +32,7 @@ class Meteors{
             id =value.id 
             //console.log("data")
          }
-         if(value.name){
+         if(value.name){ 
           name =value.name 
        }
            this.getMeteorsData(params,value,id,name)
