@@ -1,21 +1,12 @@
-//создать класс который будет содержать все классы логики 
-// export * from './meteors.js';
-// export * from './meteors/index.js'
-//import  Meteors  from '../useCase/index.js';
 import Meteors from './meteors/index.js';
-import marsPhotos from './marsPhotos/index.js';
-
-
-
+import Photo from './marsPhotos/index.js';
 
 class UseCases{
-    Meteors//meteors resurse
-    marsPhotos
+    Meteors
+    Photo
 constructor(){
     this.Meteors = Meteors
-    this.marsPhotos = marsPhotos
+    this.Photo = Photo
 }
 }
 export default new UseCases()
-
-//const data = UseCases.MeteorsData.getMeteorsData()//передача параметров 

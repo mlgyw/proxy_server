@@ -4,14 +4,16 @@ import fetch from 'node-fetch';
 dotenv.config();
 
 class NasaApi{
-        key = process.env.KEY;
-        url = process.env.URL;
-        api = this.url + this.key;
+        key 
+        url 
+        api 
     constructor(){
-        
+        this.key = process.env.KEY;
+        this.url = process.env.URL;
+        this.api = this.url + this.key;
     }
     async getMeteorsRequest (date){
-        const nasa = await fetch(date||this.api)//||this.api)
+        const nasa = await fetch(date||this.api)
         const data = await nasa.json();
         return data;
     }  

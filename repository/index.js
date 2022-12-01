@@ -1,8 +1,6 @@
 import NasaApi from './meteors/index.js'
 import Photos from './marsPhotos/index.js'
 
-
-
 class Repository{
     NasaApi
     Photos
