@@ -15,19 +15,32 @@ result
   }
         
     async getData(){
-        let data = await Repository.Photos.getPhotoRequest(this.urlDate)
-        this.data = data
+        let {value,error} = await Repository.Photos.getPhotoRequest(this.urlDate)
+        if(error){
+          console.log(error)
+        }else{
+        this.data = value
         return this.data
+        }
        }
 
         setDate(){
-      this.dateMethod.setDate(this.dateMethod.getDate()-5)
+      this.dateMethod.setDate(this.dateMethod.getDate()-6)
       let date = `${this.dateMethod.getFullYear()}-${this.dateMethod.getMonth()+1}-${this.dateMethod.getDate()}`
-      console.log(date)
       return date
      }
 
-async getPhotosData(params,data_,) {  
+  // async photoCase(){
+  //   const{value, error} = Repository.Photos.getPhoto()
+  // }
+
+async getPhotosData(params,data_,) {
+  const result = {
+          value : null,
+          error : null
+        }
+        try{
+          if(data_) {
     Object.entries(data_).forEach(([key,value]) => {
      if(typeof value == "object"){
       if(value.img_src){
@@ -35,8 +48,19 @@ async getPhotosData(params,data_,) {
      }
        this.getPhotosData(params,value)
      }       
-   }); 
-   return this.image
+   });  
+   result.value = this.image
+   return result.value
  }
+ else{
+  console.log('Whoops!   getPhotosData is not working')
+ }
+}
+ catch(error){
+  console.log(error)
+  result.error = error
+  return result.error
+    }
+  }
 }
 export default new Photo()

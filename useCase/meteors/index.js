@@ -6,17 +6,40 @@ class Meteors{
      data=[]
      date = ""
       setDate(date){
+        const result = {
+          value : null,
+          error : null
+        }
+        try{
       this.date =  date
-      return this.date
+      if(date!=null){
+        return this.date
+      }
+    }
+      catch(error){
+        console.log(error)
+        result.error = error
+        return result.error
+      }
      }
 
      async getData(){
-      let data = await repository.NasaApi.getMeteorsRequest(this.date)
-      this.data = data
+      let {value,error} = await repository.NasaApi.getMeteorsRequest(this.date)
+      if(error){
+        console.log("error getData")
+      }else{
+      this.data = value
       return this.data
+      }
      }
      
-    async getMeteorsData(params,data_,id,name) {  
+    async getMeteorsData(params,data_,id,name) { 
+      const result = {
+        value : null,
+        error : null
+      }
+      try{
+        if(params!=null&&data_!=null){
         Object.entries(data_).forEach(([key,value]) => {
          if(typeof value == "object"){
           if(value.id){
@@ -32,7 +55,19 @@ class Meteors{
            this.result[this.result.length-1][key]=value
          }   
        }); 
-       return this.result
+       result.value = this.result
+       return result
+       //return this.result
      }
+     else{
+      console.log('Whoops!   getMeteorsData is not working')
+     }
+    }
+    catch(error){
+      console.log(error)
+      result.error = error
+      return result
+    }
+   }
    }
    export default new Meteors()

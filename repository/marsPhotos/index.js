@@ -17,16 +17,60 @@ constructor(){
     this.NasaApikey = process.env.KEY;  
 }
 async getPhotoRequest (date){
+    const result = {
+        value : null,
+        error : null
+      }
+ try{
     const nasa = await fetch(date)//||this.api)
     const data = await nasa.json();
-    return data;
+    if(data){
+        result.value = data
+        return result;
+    }
+    else{
+        result.error = new Error("error")
+    }
+ }
+ catch(error){
+    console.log(error)
+    //throw new Error("Whoops!");
+    result.error = error
+    console.log("Whoops!   PhotoRequest is not working")
+    return result
+ }
 }  
 async getPhoto(url){
-    const streamPipeline = util.promisify(pipeline)
+    const result = {
+        value : null,
+        error : null
+      }
+      try{
     const response = await fetch(url)
-    await streamPipeline(response.body,createWriteStream('./nasaPhoto.png'))
-    let img = 'D:/proxy_server/nasaPhoto.png'//__dirname + './nasaPhoto.png'
-    return img
+     if(!response.ok){
+        result.error = new Error('getPhoto is not working')
+         return result
+     }
+     else{
+        const streamPipeline = util.promisify(pipeline)
+        await streamPipeline(response.body,createWriteStream('./nasaPhoto.png'))
+        let img = 'D:/proxy_server/nasaPhoto.png'//__dirname + './nasaPhoto.png'
+        result.value = img
+        return result
+     }
+    
+    // const streamPipeline = util.promisify(pipeline)
+    // await streamPipeline(response.body,createWriteStream('./nasaPhoto.png'))
+    // let img = 'D:/proxy_server/nasaPhoto.png'//__dirname + './nasaPhoto.png'
+    // return img
+}
+catch(error){
+    console.log(error)
+    //throw new Error("Whoops!");
+    result.error = error
+    console.log("Whoops!   GettingPhoto is not working")
+    return result.error
+ }
 }
 } 
 export default new Photos()
