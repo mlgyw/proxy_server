@@ -39,11 +39,12 @@ class Photo {
   async setData() {
     const data = await Repository.Photos.getData();
     const photoData = await this.getPhotosData(data);
-    if (photoData) {
-      return photoData;
-    } else {
-      error = new Error("error");
+    let { value, error } = await Repository.Photos.getPhoto(photoData);
+    if (error) {
       return error;
+    } else {
+      //error = new Error("error");
+      return value;
     }
   }
 }

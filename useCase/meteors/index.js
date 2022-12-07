@@ -31,7 +31,9 @@ class Meteors {
         return result;
         //return this.result
       } else {
+        result.error = new Error("error")
         console.log("Whoops!   getMeteorsData is not working");
+        return error
       }
     } catch (error) {
       console.log(error);
@@ -39,13 +41,18 @@ class Meteors {
       return result;
     }
   }
-  async setData(params){
+  async setData(params,startDate, endDate){
     let result = {
       value: null,
       error: null,
     };
-    const data = await Repository.NasaApi.getData();
-    result = await this.getMeteorsData(params,data) 
+    let data = {
+      value: null,
+      error: null,
+    };
+    Repository.NasaApi.getDate(startDate, endDate);
+    data = await Repository.NasaApi.getMeteorsRequest();
+    result = await this.getMeteorsData(params,data.value) 
     if(result.value){
       return result
     }else{

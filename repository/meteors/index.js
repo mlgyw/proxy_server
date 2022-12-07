@@ -36,7 +36,7 @@ class NasaApi {
       const nasa = await fetch(this.urlDate || this.api);
       const data = await nasa.json(); //null
       // return data;
-      if (data != null) {
+      if (data) {
         result.value = data;
         //console.log(typeof result.error)
         return result;
@@ -49,16 +49,6 @@ class NasaApi {
       result.error = error;
       //console.log("Whoops!   NasaApi is not working")
       return result;
-    }
-  }
-  async getData() {
-    let { value, error } = await this.getMeteorsRequest();
-    if (error) {
-      console.log("error getData");
-      console.log(error);
-    } else {
-      this.data = value;
-      return this.data;
     }
   }
 }

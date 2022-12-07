@@ -24,10 +24,7 @@ router.get("/meteors", validate(Meteors, "query"), async (req, res) => {
   let startDate = req.query.startDate;
   let endDate = req.query.endDate;
   let params = req.query.params;
-  Repository.NasaApi.getDate(startDate, endDate);
-  // const data = await Repository.NasaApi.getData();
-  // let { value, error } = await useCase.Meteors.getMeteorsData(params, data);
-  let { value, error } = await useCase.Meteors.setData(params)
+  let { value, error } = await useCase.Meteors.setData(params,startDate, endDate);
   if (error) {
     res.sendStatus(500);
     console.log(error);
@@ -38,17 +35,15 @@ router.get("/meteors", validate(Meteors, "query"), async (req, res) => {
 });
 
 router.post("/user", validate(Photo, "body"), async (req, res) => {
-  //let data = await useCase.Photo.getData();
-  //let getPhotosData = await useCase.Photo.getPhotosData(data);
-  let getPhotosData = await useCase.Photo.setData()//data)
-  let { value, error } = await Repository.Photos.getPhoto(getPhotosData);
-  if (error) {
-    res.sendStatus(500);
-    console.log(error);
-  } else {
-    fs.readFile(value, function (err, content) {
+  let picture = await useCase.Photo.setData();
+  if (picture) {
+    fs.readFile(picture, function (err, content) {
       res.writeHead(200, { "Content-type": "image/png" });
       res.end(content);
     });
+  } else {
+    res.sendStatus(500);
+    error = new Error("route is not working")
+    console.log(error);
   }
 });
