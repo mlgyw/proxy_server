@@ -13,24 +13,24 @@ dotenv.config();
 
 class Photos {
   NasaApikey;
-  Date;
-  data;
   constructor() {
     this.NasaApikey = process.env.KEY;
   }
-  async getData() {
+  async getDate() {
     let dateMethod = new Date();
     dateMethod.setDate(dateMethod.getDate() - 5);
     let date = `${dateMethod.getFullYear()}-${
       dateMethod.getMonth() + 1
     }-${dateMethod.getDate()}`;
+    return date;
+  }
+  async getData(date) {
     let urlDate = `https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?earth_date=${date}&api_key=0ggNEPtbcREDB69ukj6M8uLioWEFILGu4GMUEM62`;
     let { value, error } = await this.getPhotoRequest(urlDate);
     if (error) {
       console.log(error);
     } else {
-      this.data = value;
-      return this.data;
+      return value;
     }
   }
   async getPhotoRequest(date) {
@@ -71,16 +71,52 @@ class Photos {
           response.body,
           createWriteStream("./nasaPhoto.png")
         );
-        let img = "D:/proxy_server/nasaPhoto.png"; //__dirname + './nasaPhoto.png'
+        let img = "D:/proxy_server/nasaPhoto.png"; //TODO: Enable in future //__dirname + './nasaPhoto.png'
         result.value = img;
         return result;
       }
     } catch (error) {
       console.log(error);
-      //throw new Error("Whoops!");
       result.error = error;
       console.log("Whoops!   GettingPhoto is not working");
       return result;
+    }
+  }
+  async getLink(data_) {
+    const result = {
+      value: null,
+      error: null,
+    };
+    try {
+      if (data_) {
+        Object.entries(data_).forEach(([key, value]) => {
+          if (typeof value == "object") {
+            if (value.img_src) {
+              this.image = value.img_src;
+            }
+            this.getLink(value);
+          }
+        });
+        result.value = this.image;
+        return result.value;
+      } else {
+        console.log("Whoops!   getPhotosData is not working");
+      }
+    } catch (error) {
+      console.log(error);
+      result.error = error;
+      return result.error;
+    }
+  }
+  async getPhotosData() {
+    const date = await this.getDate();
+    const data = await this.getData(date);
+    const photoData = await this.getLink(data);
+    let { value, error } = await this.getPhoto(photoData);
+    if (error) {
+      return error;
+    } else {
+      return value;
     }
   }
 }
