@@ -1,45 +1,24 @@
 import * as dotenv from 'dotenv';
-import fetch from 'node-fetch';
 import Express  from 'express';
+import { router } from './delivery/http/meteors.js';
+import * as Sentry from "@sentry/node";
+import * as Tracing from "@sentry/tracing";
 
 dotenv.config();
 
 const app = Express();
 const port = process.env.PORT;
-const key = process.env.KEY;
-const url = process.env.URL
-const api = url + key;
 
+Sentry.init({
+  dsn: "https://285f3ed56b5242f0a28b56e9f826c05e@o4504277450227712.ingest.sentry.io/4504277498331136",
+  integrations: [
+    new Sentry.Integrations.Http({ tracing: true }),
+  ],
+  tracesSampleRate: 1.0,
+});
 
-
-app.get('/meteors', async (req, res)=>{
-  const nasa = await fetch(api)
-  const data = await nasa.json();
-  let props = ["id","name",'meters',"is_potentially_hazardous_asteroid",'kilometers_per_hour','close_approach_date_full']
-  let result=[]
-
-  let getMeteorsData = (receivedData) => {
-    Object.entries(receivedData).forEach(([key,value]) => {
-      if(typeof value == "object"){
-        getMeteorsData(value)
-      }
-      if(props.includes(key)){
-        if(key=="id"){
-        result.push({})
-      }
-        result[result.length-1][key]=value;
-      }
-      
-    });
-  }
-
-  getMeteorsData(data.near_earth_objects)
-  res.send(result);
-  console.log(result)
-  })
-
+app.use(router)
  
-
 app.listen(port, ()=>{
   console.log(`Server running at http://localhost:${port}/`);
 })
